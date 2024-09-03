@@ -233,6 +233,14 @@ st.button(
     args=(conn, df, st.session_state.inventory_table),
 )
 
+st.button(
+    "Restore",
+    type="primary",
+    disabled=not has_uncommitted_changes,
+    # Update data in database
+    on_click=display_data
+)
+
 
 # -----------------------------------------------------------------------------
 # Now some cool charts
