@@ -281,7 +281,7 @@ st.subheader("Best sellers", divider="green")
 
 st.altair_chart(
     alt.Chart(df)
-    .mark_bar(orient="horizontal")
+    .mark_bar(orient="vertical")
     .encode(
         x="units_sold",
         y=alt.Y("item_name").sort("-x"),
