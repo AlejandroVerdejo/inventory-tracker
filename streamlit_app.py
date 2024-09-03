@@ -165,6 +165,19 @@ def update_data(conn, df, changes):
 
     conn.commit()
 
+def display_data():
+    edited_df = st.data_editor(
+    df,
+    disabled=["id"],  # Don't allow editing the 'id' column.
+    num_rows="dynamic",  # Allow appending/deleting rows.
+    column_config={
+        # Show dollar sign before price columns.
+        "price": st.column_config.NumberColumn(format="$%.2f"),
+        "cost_price": st.column_config.NumberColumn(format="$%.2f"),
+    },
+    key="inventory_table",
+)
+
 
 # -----------------------------------------------------------------------------
 # Draw the actual page, starting with the inventory table.
@@ -196,17 +209,18 @@ if db_was_just_created:
 df = load_data(conn)
 
 # Display data with editable table
-edited_df = st.data_editor(
-    df,
-    disabled=["id"],  # Don't allow editing the 'id' column.
-    num_rows="dynamic",  # Allow appending/deleting rows.
-    column_config={
-        # Show dollar sign before price columns.
-        "price": st.column_config.NumberColumn(format="$%.2f"),
-        "cost_price": st.column_config.NumberColumn(format="$%.2f"),
-    },
-    key="inventory_table",
-)
+display_data()
+# edited_df = st.data_editor(
+#     df,
+#     disabled=["id"],  # Don't allow editing the 'id' column.
+#     num_rows="dynamic",  # Allow appending/deleting rows.
+#     column_config={
+#         # Show dollar sign before price columns.
+#         "price": st.column_config.NumberColumn(format="$%.2f"),
+#         "cost_price": st.column_config.NumberColumn(format="$%.2f"),
+#     },
+#     key="inventory_table",
+# )
 
 has_uncommitted_changes = any(len(v) for v in st.session_state.inventory_table.values())
 
@@ -217,15 +231,6 @@ st.button(
     # Update data in database
     on_click=update_data,
     args=(conn, df, st.session_state.inventory_table),
-)
-
-st.button(
-    "Restore",
-    type="primary",
-    disabled=not has_uncommitted_changes,
-    # Update data in database
-    on_click=load_data,
-    args=(conn),
 )
 
 
