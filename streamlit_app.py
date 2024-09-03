@@ -209,18 +209,18 @@ if db_was_just_created:
 df = load_data(conn)
 
 # Display data with editable table
-display_data()
-# edited_df = st.data_editor(
-#     df,
-#     disabled=["id"],  # Don't allow editing the 'id' column.
-#     num_rows="dynamic",  # Allow appending/deleting rows.
-#     column_config={
-#         # Show dollar sign before price columns.
-#         "price": st.column_config.NumberColumn(format="$%.2f"),
-#         "cost_price": st.column_config.NumberColumn(format="$%.2f"),
-#     },
-#     key="inventory_table",
-# )
+# display_data()
+edited_df = st.data_editor(
+    df,
+    disabled=["id"],  # Don't allow editing the 'id' column.
+    num_rows="dynamic",  # Allow appending/deleting rows.
+    column_config={
+        # Show dollar sign before price columns.
+        "price": st.column_config.NumberColumn(format="$%.2f"),
+        "cost_price": st.column_config.NumberColumn(format="$%.2f"),
+    },
+    key="inventory_table",
+)
 
 has_uncommitted_changes = any(len(v) for v in st.session_state.inventory_table.values())
 
