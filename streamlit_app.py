@@ -211,7 +211,7 @@ edited_df = st.data_editor(
 has_uncommitted_changes = any(len(v) for v in st.session_state.inventory_table.values())
 
 st.button(
-    "Commit changes",
+    "Commit changess",
     type="primary",
     disabled=not has_uncommitted_changes,
     # Update data in database
